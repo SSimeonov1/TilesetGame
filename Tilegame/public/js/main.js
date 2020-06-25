@@ -65,8 +65,42 @@ function drawImage() {
   }
 }
 
+let armorsImage = new Image ();
+armorsImage.src = '/image/armors.png';
+let armorSize = 16;
 
 
+
+
+
+
+
+const SCALE = 2;
+const WIDTH = 16;
+const HEIGHT = 18;
+const SCALED_WIDTH = SCALE * WIDTH;
+const SCALED_HEIGHT = SCALE * HEIGHT;
+
+const CYCLE_LOOP = [0, 1, 0, 2];
+const FACING_DOWN = 0;
+const FACING_UP = 1;
+const FACING_LEFT = 2;
+const FACING_RIGHT = 3;
+const FRAME_LIMIT = 12;
+
+let currentDirection = FACING_RIGHT;
+let currentLoopIndex = 0;
+let frameCount = 0;
+
+
+let spriteImage = new Image();
+spriteImage.src = '/image/sprite.png';
+
+function drawFrame(frameX, frameY, canvasX, canvasY) {
+            context.drawImage(spriteImage,
+                frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
+                canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
+}
 
 rectangle = {
 
@@ -107,7 +141,11 @@ controller = {
 
 };
 
+
 loop = function () {
+
+  let hasMoved = false;
+  // let canvas = document.querySelector('canvas');
 
   if (controller.up && rectangle.jumping == false) {
 
@@ -117,16 +155,48 @@ loop = function () {
   }
 
   if (controller.left) {
-
-    rectangle.x_velocity -= 0.5;
+     // moveCharacter(rectangle.x_velocity, 0, FACING_LEFT);
+     currentDirection = FACING_LEFT;
+      hasMoved = true;
+     rectangle.x_velocity -= 0.4;
 
   }
 
   if (controller.right) {
-
-    rectangle.x_velocity += 0.5;
+    //  moveCharacter(rectangle.x_velocity, 0, FACING_RIGHT);
+    currentDirection = FACING_RIGHT
+      hasMoved = true;
+     rectangle.x_velocity += 0.4;
 
   }
+
+
+  if (hasMoved) {
+    frameCount++;
+    if (frameCount >= FRAME_LIMIT) {
+      frameCount = 0;
+      currentLoopIndex++;
+      if (currentLoopIndex >= CYCLE_LOOP.length) {
+        currentLoopIndex = 0;
+      }
+    }
+  }
+
+  if (!hasMoved) {
+    currentLoopIndex = 0;
+  }
+
+
+  // function moveCharacter(deltaX, deltaY, direction) {
+  //   if (rectangle.x + deltaX > 0 && rectangle.x + SCALED_WIDTH + deltaX < canvas.width) {
+  //     rectangle.y += deltaX;
+  //   }
+  //   if (rectangle.y + deltaY > 0 && rectangle.y + SCALED_HEIGHT + deltaY < canvas.height) {
+  //     rectangle.y += deltaY;
+  //   }
+  //   currentDirection = direction;
+  // }
+
 
   rectangle.y_velocity += 1.0;// gravity
   rectangle.x += rectangle.x_velocity;
@@ -152,7 +222,7 @@ loop = function () {
           rectangle.y_velocity = 0;
         }
      }   
-    }                                       
+    };                                    
   
 
 
@@ -167,13 +237,13 @@ loop = function () {
 
   } else {
     for (let i = 0; i < blocks.length; i++) {  
-      if (((rectangle.x > 32*(blocks[i].col+1)) && (rectangle.x < 32*(blocks[i].col+1)+7))  && rectangle.y >= 32*blocks[i].row + rectangle.y_velocity && rectangle.y < 32*(blocks[i].row+1) + rectangle.y_velocity) {
+      if (((rectangle.x >= 32*(blocks[i].col+1)-4) && (rectangle.x < 32*(blocks[i].col+1)))  && rectangle.y >= 32*blocks[i].row && rectangle.y < 32*(blocks[i].row+1)) {
         rectangle.x = 32*(blocks[i].col+1);
-        // rectangle.x_velocity = 0;                          // To Stop From Right Side
+        rectangle.x_velocity = 0;                          // To Stop From Right Side
        break;
-      } else if (((rectangle.x > 32*(blocks[i].col-1)-7) && (rectangle.x < 32*(blocks[i].col-1)))  && rectangle.y >= 32*blocks[i].row + rectangle.y_velocity && rectangle.y < 32*(blocks[i].row+1) + rectangle.y_velocity) {
+      } else if (((rectangle.x > 32*(blocks[i].col-1)) && (rectangle.x <= 32*(blocks[i].col-1)+4))  && rectangle.y >= 32*blocks[i].row && rectangle.y < 32*(blocks[i].row+1)) {
         rectangle.x = 32*(blocks[i].col-1); 
-        // rectangle.x_velocity = 0;
+        rectangle.x_velocity = 0;
                                                           // To stop From Lеft Side
        break;
       }
@@ -182,12 +252,14 @@ loop = function () {
 
 
   drawImage();
-  context.fillStyle = "#ff0000";// hex for red
-  context.beginPath();
-  context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-  context.fill();
-  context.strokeStyle = "#202830";
-  context.lineWidth = 4;
+  drawFrame(CYCLE_LOOP [currentLoopIndex], currentDirection, rectangle.x, rectangle.y); 
+  
+  // context.fillStyle = "#ff0000";// hex for red
+  // context.beginPath();
+  // context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+  // context.fill();
+  // context.strokeStyle = "#202830";
+  // context.lineWidth = 4;
 
 
   // call update when the browser is ready to draw again
