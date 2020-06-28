@@ -223,8 +223,13 @@ let tilesetCoinImage = new Image();
 tilesetCoinImage.src = '/image/coin3.png';
 let coinTileSize = 51;
 let coinRowTileCount = 15;
- let coinColTileCount = 32;
+let coinColTileCount = 32;
 let coinImageNumTiles = 11;
+var currentCoinIndex = 0;
+
+// let armorsImage = new Image ();
+// armorsImage.src = '/image/armors.png';
+// let armorSize = 16;
 
 let tilesetImage = new Image();
 tilesetImage.src = '/image/tiles.png';
@@ -248,25 +253,83 @@ function drawImage() {
       tileCol = (tile % imageNumTiles) | 0;
       context.drawImage(tilesetImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (c * tileSize), (r * tileSize), tileSize, tileSize);
 	  
-	  // if(r<2 && c <3){
-	  tile = coinLayer[r][c];
+	    tile = coinLayer[r][c];
       tileRow = (tile / coinImageNumTiles) | 0;
       tileCol = (tile % coinImageNumTiles) | 0;
       context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
-	  //}
+    
+
+      if (currentCoinIndex == 0) {
+        tile = coinLayer[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));;
+      }
+      else if (currentCoinIndex == 1) {
+        tile = coinLayer1[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));;
+      }
+      else if (currentCoinIndex ==2) {
+        tile = coinLayer2[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      }
+      else if (currentCoinIndex == 3) {
+        tile = coinLayer3[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      }
+      else if (currentCoinIndex == 4) {
+        tile = coinLayer4[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      }
+      else if (currentCoinIndex == 5) {
+        tile = coinLayer5[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      }
+      else if (currentCoinIndex == 6) {
+        tile = coinLayer6[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      }
+      else if (currentCoinIndex == 7) {
+        tile = coinLayer7[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      }
+      else if (currentCoinIndex == 8) {
+        tile = coinLayer8[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      }
+      else if (currentCoinIndex == 9) {
+        tile = coinLayer9[r][c];
+        tileRow = (tile / coinImageNumTiles) | 0;
+        tileCol = (tile % coinImageNumTiles) | 0;
+        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
+      } 
+      
+      if (frameCount >= FRAME_LIMIT) {
+      if (currentCoinIndex < 10) {
+        currentCoinIndex+=1;
+      } else {
+        currentCoinIndex = 0;
+      }
+    }
     }
   }
 }
-
-let armorsImage = new Image ();
-armorsImage.src = '/image/armors.png';
-let armorSize = 16;
-
-
-
-
-
-
 
 const SCALE = 2;
 const WIDTH = 16;
@@ -378,18 +441,6 @@ loop = function () {
   if (!hasMoved) {
     currentLoopIndex = 0;
   }
-
-
-  // function moveCharacter(deltaX, deltaY, direction) {
-  //   if (rectangle.x + deltaX > 0 && rectangle.x + SCALED_WIDTH + deltaX < canvas.width) {
-  //     rectangle.y += deltaX;
-  //   }
-  //   if (rectangle.y + deltaY > 0 && rectangle.y + SCALED_HEIGHT + deltaY < canvas.height) {
-  //     rectangle.y += deltaY;
-  //   }
-  //   currentDirection = direction;
-  // }
-
 
   rectangle.y_velocity += 1.0;// gravity
   rectangle.x += rectangle.x_velocity;
