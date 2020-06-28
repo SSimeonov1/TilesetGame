@@ -226,6 +226,8 @@ let coinRowTileCount = 15;
 let coinColTileCount = 32;
 let coinImageNumTiles = 11;
 var currentCoinIndex = 0;
+var coinFrameLimit = 12;
+var coinFrameCount = 0;
 
 // let armorsImage = new Image ();
 // armorsImage.src = '/image/armors.png';
@@ -320,12 +322,13 @@ function drawImage() {
         context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize-19)), (r * (coinTileSize-19)),(coinTileSize-30), (coinTileSize-30));
       } 
       
-      if (frameCount >= FRAME_LIMIT) {
+      if (coinFrameCount >= coinFrameLimit) {
       if (currentCoinIndex < 10) {
-        currentCoinIndex+=1;
+        currentCoinIndex++;
       } else {
         currentCoinIndex = 0;
       }
+      coinFrameCount++;
     }
     }
   }
