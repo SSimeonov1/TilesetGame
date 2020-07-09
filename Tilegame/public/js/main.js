@@ -218,7 +218,7 @@ let coinLayer9 = [
   [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
 ];
 
-
+// draws the coins
 let tilesetCoinImage = new Image();
 tilesetCoinImage.src = '/image/coin3.png';
 let coinTileSize = 51;
@@ -229,10 +229,7 @@ var currentCoinIndex = 0;
 var coinFrameLimit = 1800;
 var coinFrameCount = 0;
 
-// let armorsImage = new Image ();
-// armorsImage.src = '/image/armors.png';
-// let armorSize = 16;
-
+// draws the tiles
 let tilesetImage = new Image();
 tilesetImage.src = '/image/tiles.png';
 tilesetImage.onload = drawImage;
@@ -256,7 +253,7 @@ function drawImage() {
       context.drawImage(tilesetImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (c * tileSize), (r * tileSize), tileSize, tileSize);
 
 
-      // Coin Array Drawings
+      // draws coin arrays
       if (currentCoinIndex == 0) {
         tile = coinLayer[r][c];
         tileRow = (tile / coinImageNumTiles) | 0;
@@ -317,8 +314,8 @@ function drawImage() {
         tileCol = (tile % coinImageNumTiles) | 0;
         context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
       }
-
-      // Coin Animation
+      
+      // coin animation
       if (coinFrameCount >= coinFrameLimit) {
         coinFrameCount = 0;
         if (currentCoinIndex < 10) {
@@ -349,7 +346,7 @@ let currentDirection = FACING_RIGHT;
 let currentLoopIndex = 0;
 let frameCount = 0;
 
-
+// draws sprite image
 let spriteImage = new Image();
 spriteImage.src = '/image/sprite.png';
 
@@ -364,70 +361,48 @@ rectangle = {
   height: 32,
   jumping: true,
   width: 32,
-  x: 80, // center of the canvas
+  x: 80,  // center of the canvas
   x_velocity: 0,
   y: 0,
   y_velocity: 0
-
 };
 
 controller = {
-
   left: false,
   right: false,
   up: false,
   keyListener: function (event) {
-
     var key_state = (event.type == "keydown") ? true : false;
-
     switch (event.keyCode) {
-
-      case 37:// left key
+      case 37:  // left key
         controller.left = key_state;
         break;
-      case 38:// up key
+      case 38:  // up key
         controller.up = key_state;
         break;
-      case 39:// right key
+      case 39:  // right key
         controller.right = key_state;
         break;
-
     }
-
   }
-
 };
 
-
 loop = function () {
-
   let hasMoved = false;
-  // let canvas = document.querySelector('canvas');
-
   if (controller.up && rectangle.jumping == false) {
-
     rectangle.y_velocity -= 20;
     rectangle.jumping = true;
-
   }
-
   if (controller.left) {
-    // moveCharacter(rectangle.x_velocity, 0, FACING_LEFT);
     currentDirection = FACING_LEFT;
     hasMoved = true;
     rectangle.x_velocity -= 0.4;
-
   }
-
   if (controller.right) {
-    //  moveCharacter(rectangle.x_velocity, 0, FACING_RIGHT);
     currentDirection = FACING_RIGHT
     hasMoved = true;
     rectangle.x_velocity += 0.4;
-
   }
-
-
   if (hasMoved) {
     frameCount++;
     if (frameCount >= FRAME_LIMIT) {
@@ -442,21 +417,19 @@ loop = function () {
   if (!hasMoved) {
     currentLoopIndex = 0;
   }
-
-  rectangle.y_velocity += 1.0;// gravity
+  rectangle.y_velocity += 1.0;  // gravity
   rectangle.x += rectangle.x_velocity;
   rectangle.y += rectangle.y_velocity;
-  rectangle.x_velocity *= 0.9;// friction
-  rectangle.y_velocity *= 0.9;// friction
+  rectangle.x_velocity *= 0.9;  // friction
+  rectangle.y_velocity *= 0.9;  // friction
 
   // if rectangle is falling below floor line
   if (rectangle.y > 480 - 32 * 2) {
-
     rectangle.jumping = false;
     rectangle.y = 480 - 32 * 2;
     rectangle.y_velocity = 0;
 
-    // Solid Platforms When Jumping On Them
+    // solid platforms, when jumping on them
   } else {
     for (let i = 0; i < blocks.length; i++) {
       if (rectangle.y > 32 * (blocks[i].row - 1) - 5 && (rectangle.y < 32 * (blocks[i].row - 1) + 2) && ((rectangle.x < 32 * (blocks[i].col + 1) - 2) && (rectangle.x > 32 * (blocks[i].col - 1) + 2))) {
@@ -472,31 +445,22 @@ loop = function () {
 
   // if rectangle is going off the left of the screen
   if (rectangle.x <= 0) {
-
     rectangle.x = 0;
-
   } else if (rectangle.x >= 1024 - 32) {                                               // if rectangle goes past right boundary
-
     rectangle.x = 1024 - 32;
-
   } else {
     for (let i = 0; i < blocks.length; i++) {
       if (((rectangle.x >= 32 * (blocks[i].col + 1) - 4) && (rectangle.x < 32 * (blocks[i].col + 1))) && rectangle.y >= 32 * blocks[i].row && rectangle.y < 32 * (blocks[i].row + 1)) {
-        rectangle.x = 32 * (blocks[i].col + 1);
-        rectangle.x_velocity = 0;                          // To Stop From Right Side
+        rectangle.x = 32 * (blocks[i].col + 1);                // to stop from right side of platform
+        rectangle.x_velocity = 0;                         
         break;
       } else if (((rectangle.x > 32 * (blocks[i].col - 1)) && (rectangle.x <= 32 * (blocks[i].col - 1) + 4)) && rectangle.y >= 32 * blocks[i].row && rectangle.y < 32 * (blocks[i].row + 1)) {
-        rectangle.x = 32 * (blocks[i].col - 1);
-        rectangle.x_velocity = 0;
-        // To stop From Lеft Side
+        rectangle.x = 32 * (blocks[i].col - 1);               // to stop from left side of the platform
+        rectangle.x_velocity = 0;                       
         break;
       }
       for (let i = 0; i < coinBlocks.length; i++) {
-        // if (((rectangle.x >= 32 * (coinBlocks[i].coinCol + 1) - 4) && (rectangle.x < 32 * (coinBlocks[i].coinCol + 1))) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow + 1) || ((rectangle.x > 32 * (coinBlocks[i].coinCol - 1)) && (rectangle.x <= 32 * (coinBlocks[i].coinCol - 1) + 4)) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow + 1)) {
-          // if (((rectangle.x < 32 * (coinBlocks[i].coinCol -1 )-32) && (rectangle.x < 32 * (coinBlocks[i].coinCol -1 )) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow  )) || ((rectangle.x > 32 * (coinBlocks[i].coinCol - 1)) && (rectangle.x <= 32 * (coinBlocks[i].coinCol))) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow + 1)) {
-          // if (((rectangle.x >= 16 * (coinBlocks[i].coinCol -5 )-25) && (rectangle.x < 32 * (coinBlocks[i].coinCol -1 )) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow  )) || ((rectangle.x > 32 * (coinBlocks[i].coinCol - 1)) && (rectangle.x <= 32 * (coinBlocks[i].coinCol))) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow + 1)) {
-          // if (((rectangle.x > (32/2) * (coinBlocks[i].coinCol -16 )) && (rectangle.x < 32 * (coinBlocks[i].coinCol -1 )) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow  )) || ((rectangle.x > 32 * (coinBlocks[i].coinCol - 1)) && (rectangle.x <= 32 * (coinBlocks[i].coinCol))) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow + 1)) {
-          if (((rectangle.x >= 32 * coinBlocks[i].coinCol ) && (rectangle.x < 32 * (coinBlocks[i].coinCol -1 )) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow  )) || ((rectangle.x > 32 * (coinBlocks[i].coinCol - 1)) && (rectangle.x <= 32 * (coinBlocks[i].coinCol))) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow + 1)) {
+          if (((rectangle.x >= 32 * coinBlocks[i].coinCol - 20) && (rectangle.x < 32 * (coinBlocks[i].coinCol+1 )-20) && rectangle.y >= 32 * coinBlocks[i].coinRow && rectangle.y < 32 * (coinBlocks[i].coinRow +1 )) ) {
           coinLayer[coinBlocks[i].coinRow][coinBlocks[i].coinCol] = 10;
           coinLayer1[coinBlocks[i].coinRow][coinBlocks[i].coinCol] = 10;
           coinLayer2[coinBlocks[i].coinRow][coinBlocks[i].coinCol] = 10;
@@ -512,17 +476,8 @@ loop = function () {
     }
   }
 
-
   drawImage();
   drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, rectangle.x, rectangle.y);
-
-  // context.fillStyle = "#ff0000";// hex for red
-  // context.beginPath();
-  // context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-  // context.fill();
-  // context.strokeStyle = "#202830";
-  // context.lineWidth = 4;
-
 
   // call update when the browser is ready to draw again
   window.requestAnimationFrame(loop);
@@ -538,8 +493,6 @@ for (; coinRow < 15; coinRow++) {
     }
   }
 };
-
-
 
 let blocks = [];
 let row = 0;
