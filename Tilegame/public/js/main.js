@@ -1,5 +1,7 @@
 var context, controller, rectangle, loop;
 
+var isAudioPlaying = false;
+  
 context = document.getElementById("screen").getContext("2d");
 
 let ground = [
@@ -256,64 +258,44 @@ function drawImage() {
       // draws coin arrays
       if (currentCoinIndex == 0) {
         tile = coinLayer[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));;
-      }
+		drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 1) {
         tile = coinLayer1[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));;
-      }
+		drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 2) {
         tile = coinLayer2[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+		drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 3) {
         tile = coinLayer3[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+		drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 4) {
         tile = coinLayer4[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+		drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 5) {
         tile = coinLayer5[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+        drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 6) {
         tile = coinLayer6[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+        drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 7) {
         tile = coinLayer7[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+        drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 8) {
         tile = coinLayer8[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+        drawCoinLayer(tile, r, c);
+	  }
       else if (currentCoinIndex == 9) {
         tile = coinLayer9[r][c];
-        tileRow = (tile / coinImageNumTiles) | 0;
-        tileCol = (tile % coinImageNumTiles) | 0;
-        context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
-      }
+        drawCoinLayer(tile, r, c);
+	  }
       
       // coin animation
       if (coinFrameCount >= coinFrameLimit) {
@@ -327,6 +309,13 @@ function drawImage() {
       coinFrameCount++;
     }
   }
+}
+
+function drawCoinLayer(tile, r, c) {
+    let tileRow = (tile / coinImageNumTiles) | 0;
+    let tileCol = (tile % coinImageNumTiles) | 0;
+    context.drawImage(tilesetCoinImage, (tileCol * coinTileSize), (tileRow * coinTileSize), coinTileSize, coinTileSize, (c * (coinTileSize - 19)), (r * (coinTileSize - 19)), (coinTileSize - 30), (coinTileSize - 30));
+      
 }
 
 const SCALE = 2;
@@ -376,12 +365,21 @@ controller = {
     switch (event.keyCode) {
       case 37:  // left key
         controller.left = key_state;
+		if(!isAudioPlaying){
+			playAudio();
+		}
         break;
       case 38:  // up key
         controller.up = key_state;
+		if(!isAudioPlaying){
+			playAudio();
+		}	
         break;
       case 39:  // right key
         controller.right = key_state;
+		if(!isAudioPlaying){
+			playAudio();
+		}
         break;
     }
   }
@@ -433,13 +431,21 @@ loop = function () {
   } else {
     for (let i = 0; i < blocks.length; i++) {
       if (rectangle.y > 32 * (blocks[i].row - 1) - 5 && (rectangle.y < 32 * (blocks[i].row - 1) + 2) && ((rectangle.x < 32 * (blocks[i].col + 1) - 2) && (rectangle.x > 32 * (blocks[i].col - 1) + 2))) {
-        rectangle.jumping = false;
+        //solid blocks on top
+		rectangle.jumping = false;
         rectangle.y = 32 * (blocks[i].row - 1);
         rectangle.y_velocity = 0;
-      } else if (rectangle.y > 32 * (blocks[i].row - 1) - 2 && (rectangle.y < 32 * (blocks[i].row + 1) + 1) && ((rectangle.x < 32 * (blocks[i].col + 1) - 2) && (rectangle.x > 32 * (blocks[i].col - 1) + 2))) {
-        rectangle.y = 32 * (blocks[i].row + 1);
+      }  else {
+		  //solid blocks on bottom
+	  if (rectangle.y > 32 * (blocks[i].row - 1) - 2 && (rectangle.y < 32 * (blocks[i].row + 1) + 1) && ((rectangle.x < 32 * (blocks[i].col + 1) - 2) && (rectangle.x > 32 * (blocks[i].col - 1) + 2))) {
+        
+        rectangle.x_velocity = 0;
+      }  
+	  if (rectangle.y > 32 * (blocks[i].row - 1) - 2 && (rectangle.y < 32 * (blocks[i].row + 1) + 1) && ((rectangle.x < 32 * (blocks[i].col + 1) - 8) && (rectangle.x > 32 * (blocks[i].col - 1) + 8))) {
+		rectangle.y = 32 * (blocks[i].row + 1);
         rectangle.y_velocity = 0;
       }
+	  }
     }
   };
 
@@ -508,3 +514,17 @@ for (; row < 15; row++) {
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
 window.requestAnimationFrame(loop);
+
+function playAudio(){
+ 	let sound = document.getElementById("audio");
+	sound.currentTime = 0;
+	sound.loop = true; //if you want it to restart playing automatically when it ends
+	sound.play();
+	isAudioPlaying = true;
+};
+
+function stopAudio(){
+ 	let sound = document.getElementById("audio");
+	sound.pause();
+	isAudioPlaying = false;
+};
